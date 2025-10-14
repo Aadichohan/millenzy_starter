@@ -1,178 +1,188 @@
 <?php
-/**
- * millenzy_starter functions and definitions
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
- * @package millenzy_starter
- */
+// -----------------------------------------------------------
+// Millenzy Custom Theme Setup Additions (Elementor + WooCommerce)
+// -----------------------------------------------------------
+// Disable Elementor’s automatic Google Fonts loading
+// add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
 
-if ( ! defined( '_S_VERSION' ) ) {
-	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.0' );
-}
+// Add theme supports
+add_action('after_setup_theme', function(){
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    add_theme_support('woocommerce'); // WooCommerce integration
+});
 
-/**
- * Sets up theme defaults and registers support for various WordPress features.
- *
- * Note that this function is hooked into the after_setup_theme hook, which
- * runs before the init hook. The init hook is too late for some features, such
- * as indicating support for post thumbnails.
- */
-function millenzy_starter_setup() {
-	/*
-		* Make theme available for translation.
-		* Translations can be filed in the /languages/ directory.
-		* If you're building a theme based on millenzy_starter, use a find and replace
-		* to change 'millenzy_starter' to the name of your theme in all the template files.
-		*/
-	load_theme_textdomain( 'millenzy_starter', get_template_directory() . '/languages' );
+// Elementor compatibility settings
+add_action('after_switch_theme', function(){
+    if (class_exists('\\Elementor\\Plugin')) {
+        update_option('elementor_disable_color_schemes', 'yes');
+        update_option('elementor_disable_typography_schemes', 'yes');
+    }
+});
 
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
+// Register menus
+add_action('init', function() {
+    register_nav_menus([
+        'primary' => __('Primary Menu', 'millenzy'),
+        'footer'  => __('Footer Menu', 'millenzy'),
+    ]);
+});
 
-	/*
-		* Let WordPress manage the document title.
-		* By adding theme support, we declare that this theme does not use a
-		* hard-coded <title> tag in the document head, and expect WordPress to
-		* provide it for us.
-		*/
-	add_theme_support( 'title-tag' );
+// Enqueue styles
+add_action('wp_enqueue_scripts', function() {
+    $dir  = get_template_directory_uri() . '/assets/css/';
+    $custom_dir  = get_template_directory_uri() . '/assets/custom_css/';
+    $path = get_template_directory() . '/assets/css/';
+    $custom_path = get_template_directory() . '/assets/custom_css/';
 
-	/*
-		* Enable support for Post Thumbnails on posts and pages.
-		*
-		* @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		*/
-	add_theme_support( 'post-thumbnails' );
+    // Font Awesome
+    // Remove Elementor's default Font Awesome
+    wp_deregister_style('font-awesome');
+    wp_dequeue_style('font-awesome');
 
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus(
-		array(
-			'menu-1' => esc_html__( 'Primary', 'millenzy_starter' ),
-		)
-	);
+    // Enqueue latest Font Awesome 6
+    // wp_enqueue_style('font-awesome-6', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+    // wp_enqueue_style('font-awesome-local', $dir . 'all.min.css', [], filemtime($path . 'all.min.css'));    
+    wp_enqueue_style('font-awesome-local', $dir . 'all.min.css', [], '6.5.0');
+    
+    // Main stylesheet
+    wp_enqueue_style('millenzy-style', get_stylesheet_uri(), [], filemtime(get_stylesheet_directory() . '/style.css'));
 
-	/*
-		* Switch default core markup for search form, comment form, and comments
-		* to output valid HTML5.
-		*/
-	add_theme_support(
-		'html5',
-		array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-			'style',
-			'script',
-		)
-	);
+    // Common style
+    wp_enqueue_style('millenzy-common', $custom_dir . 'common.css', [], filemtime($custom_path . 'common.css'));
 
-	// Set up the WordPress core custom background feature.
-	add_theme_support(
-		'custom-background',
-		apply_filters(
-			'millenzy_starter_custom_background_args',
-			array(
-				'default-color' => 'ffffff',
-				'default-image' => '',
-			)
-		)
-	);
+    // Conditional styles
+    if (is_front_page()) {
+        wp_enqueue_style('home', $custom_dir . 'home.css', [], filemtime($custom_path . 'home.css'));
+    } elseif (is_shop() || is_product_category()) {
+        wp_enqueue_style('shop', $custom_dir . 'shop.css', [], filemtime($custom_path . 'shop.css'));
+    } elseif (is_product()) {
+        wp_enqueue_style('product', $custom_dir . 'product.css', [], filemtime($custom_path . 'product.css'));
+    } elseif (is_cart()) {
+        wp_enqueue_style('cart', $custom_dir . 'cart.css', [], filemtime($custom_path . 'cart.css'));
+    } elseif (is_checkout()) {
+        wp_enqueue_style('checkout', $custom_dir . 'checkout.css', [], filemtime($custom_path . 'checkout.css'));
+    } elseif (is_account_page()) {
+        wp_enqueue_style('account', $custom_dir . 'account.css', [], filemtime($custom_path . 'account.css'));
+    } elseif (is_page('contact')) {
+        wp_enqueue_style('contact', $custom_dir . 'contact.css', [], filemtime($custom_path . 'contact.css'));
+    } elseif (is_page('about')) {
+        wp_enqueue_style('about', $custom_dir . 'about.css', [], filemtime($custom_path . 'about.css'));
+    } elseif (is_page(['men','women','unisex'])) {
+        wp_enqueue_style('collection', $custom_dir . 'collection.css', [], filemtime($custom_path . 'collection.css'));
+    }
+});
 
-	// Add theme support for selective refresh for widgets.
-	add_theme_support( 'customize-selective-refresh-widgets' );
+// -----------------------------------------------------------
+// Customizer Settings: Header & Footer Colors
+// -----------------------------------------------------------
+add_action('customize_register', function($wp_customize) {
 
-	/**
-	 * Add support for core custom logo.
-	 *
-	 * @link https://codex.wordpress.org/Theme_Logo
-	 */
-	add_theme_support(
-		'custom-logo',
-		array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
-			'flex-height' => true,
-		)
-	);
-}
-add_action( 'after_setup_theme', 'millenzy_starter_setup' );
+    // Ensure Color Control class exists
+    if (!class_exists('WP_Customize_Color_Control')) {
+        require_once ABSPATH . 'wp-includes/class-wp-customize-control.php';
+    }
 
-/**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
- */
-function millenzy_starter_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'millenzy_starter_content_width', 640 );
-}
-add_action( 'after_setup_theme', 'millenzy_starter_content_width', 0 );
+    // Header Section
+    $wp_customize->add_section('millenzy_header_colors', [
+        'title'    => __('Header Colors', 'millenzy'),
+        'priority' => 30,
+    ]);
 
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
-function millenzy_starter_widgets_init() {
-	register_sidebar(
-		array(
-			'name'          => esc_html__( 'Sidebar', 'millenzy_starter' ),
-			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'millenzy_starter' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
-}
-add_action( 'widgets_init', 'millenzy_starter_widgets_init' );
+    // Header background color
+    $wp_customize->add_setting('millenzy_header_bg_color', [
+        'default'   => '#f8f8f8', // ash white
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_header_bg_color_control', [
+        'label'    => __('Header Background Color', 'millenzy'),
+        'section'  => 'millenzy_header_colors',
+        'settings' => 'millenzy_header_bg_color',
+    ]));
 
-/**
- * Enqueue scripts and styles.
- */
-function millenzy_starter_scripts() {
-	wp_enqueue_style( 'millenzy_starter-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_style_add_data( 'millenzy_starter-style', 'rtl', 'replace' );
+    // Header text color
+    $wp_customize->add_setting('millenzy_header_text_color', [
+        'default'   => '#000000', // black
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_header_text_color_control', [
+        'label'    => __('Header Text Color', 'millenzy'),
+        'section'  => 'millenzy_header_colors',
+        'settings' => 'millenzy_header_text_color',
+    ]));
 
-	wp_enqueue_script( 'millenzy_starter-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+    // Footer Section
+    $wp_customize->add_section('millenzy_footer_colors', [
+        'title'    => __('Footer Colors', 'millenzy'),
+        'priority' => 31,
+    ]);
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'millenzy_starter_scripts' );
+    // Footer background color
+    $wp_customize->add_setting('millenzy_footer_bg_color', [
+        'default'   => '#f8f8f8',
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_footer_bg_color_control', [
+        'label'    => __('Footer Background Color', 'millenzy'),
+        'section'  => 'millenzy_footer_colors',
+        'settings' => 'millenzy_footer_bg_color',
+    ]));
 
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
+    // Footer text color
+    $wp_customize->add_setting('millenzy_footer_text_color', [
+        'default'   => '#000000',
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_footer_text_color_control', [
+        'label'    => __('Footer Text Color', 'millenzy'),
+        'section'  => 'millenzy_footer_colors',
+        'settings' => 'millenzy_footer_text_color',
+    ]));
+});
 
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
+// -----------------------------------------------------------
+// Apply Customizer Colors to Header & Footer (Dynamic + Extended Selectors)
+// -----------------------------------------------------------
+add_action('wp_head', function() {
+    $header_bg   = get_theme_mod('millenzy_header_bg_color', '#f8f8f8');
+    $header_text = get_theme_mod('millenzy_header_text_color', '#000000');
+    $footer_bg   = get_theme_mod('millenzy_footer_bg_color', '#f8f8f8');
+    $footer_text = get_theme_mod('millenzy_footer_text_color', '#000000');
 
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
+    echo "<style id='millenzy-dynamic-styles'>
+        /* 🔹 Header Dynamic Colors */
+        header.site-header,
+        .millenzy-header,
+        .main-header,
+        .header-wrap,
+        .top-bar {
+            background-color: {$header_bg} !important;
+            color: {$header_text} !important;
+        }
+        header.site-header a,
+        .millenzy-header a,
+        .main-header a,
+        .header-wrap a,
+        .top-bar a,
+        .nav-links li a,
+        .nav-icons a {
+            color: {$header_text} !important;
+        }
 
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
-}
-
+        /* 🔹 Footer Dynamic Colors */
+        footer.site-footer,
+        .millenzy-footer,
+        .footer-wrap,
+        .footer-inner {
+            background-color: {$footer_bg} !important;
+            color: {$footer_text} !important;
+        }
+        footer.site-footer a,
+        .millenzy-footer a,
+        .footer-wrap a,
+        .footer-inner a {
+            color: {$footer_text} !important;
+        }
+    </style>";
+}, 999);

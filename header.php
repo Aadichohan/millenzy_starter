@@ -1,59 +1,79 @@
-<?php
-/**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package millenzy_starter
- */
-
-?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="profile" href="https://gmpg.org/xfn/11">
-
-	<?php wp_head(); ?>
+<meta charset="<?php bloginfo('charset'); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<?php wp_head(); ?>
 </head>
-
 <body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'millenzy_starter' ); ?></a>
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) :
-				?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<?php
-			else :
-				?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php
-			endif;
-			$millenzy_starter_description = get_bloginfo( 'description', 'display' );
-			if ( $millenzy_starter_description || is_customize_preview() ) :
-				?>
-				<p class="site-description"><?php echo $millenzy_starter_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
+<!-- 🔹 Top Bar -->
+<div class="top-bar">
+  <div class="container">
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <div class="delivery-info">
+      Standard Delivery in 3–4 Business Days
+    </div>
+  </div>
+</div>
 
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'millenzy_starter' ); ?></button>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-1',
-					'menu_id'        => 'primary-menu',
-				)
-			);
-			?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+<!-- 🔹 Main Header -->
+<header class="main-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <?php 
+        if (has_custom_logo()) {
+          the_custom_logo();
+        } else { ?>
+          <a href="<?php echo esc_url(home_url('/')); ?>">Millenzy</a>
+        <?php } ?>
+    </div>
+
+    <nav class="main-nav">
+      <?php
+        wp_nav_menu([
+          'theme_location' => 'primary',
+          'container' => false,
+          'menu_class' => 'menu-items',
+        ]);
+      ?>
+    </nav>
+
+    <div class="header-icons">
+      <a href="#"><i class="fas fa-search"></i></a>
+      <a href="<?php echo wc_get_page_permalink('myaccount'); ?>"><i class="far fa-user"></i></a>
+      <a href="<?php echo wc_get_cart_url(); ?>"><i class="far fa-shopping-bag"></i></a>
+    </div>
+    <!-- <div class="header-icons">
+        <a href="#" class="icon-search" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+        </a>
+
+        <a href="<?php echo wc_get_page_permalink('myaccount'); ?>" class="icon-user" aria-label="My Account">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="7" r="4" />
+            <path d="M5.5 21a6.5 6.5 0 0 1 13 0Z" />
+            </svg>
+        </a>
+
+        <a href="<?php echo wc_get_cart_url(); ?>" class="icon-cart" aria-label="Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 1 1-8 0" />
+            </svg>
+        </a>
+    </div> -->
+
+  </div>
+</header>
+
+<main id="primary" class="site-main">
