@@ -1,0 +1,41 @@
+/* Local Montserrat Font (.ttf version) */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('Montserrat-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('Montserrat-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply Montserrat globally */
+/* body, h1, h2, h3, h4, h5, h6, p, a, button, input {
+  font-family: 'Montserrat', sans-serif;
+} */
+body {
+  font-family: 'Montserrat', sans-serif
+  /* , sans-serif; */
+}

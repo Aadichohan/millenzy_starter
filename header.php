@@ -34,13 +34,21 @@
         <?php } ?>
     </div>
 
-    <nav class="main-nav">
+    <!-- 🔹 Burger Icon (Mobile Only) -->
+    <div class="nav-toggle" id="navToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+   <!-- 🔹 Navigation -->
+    <nav class="main-nav" id="mobileNav">
       <?php
-        wp_nav_menu([
+        wp_nav_menu(array(
           'theme_location' => 'primary',
-          'container' => false,
-          'menu_class' => 'menu-items',
-        ]);
+          'menu_class'     => 'menu-items',
+          'container'      => false,
+        ));
       ?>
     </nav>
 
