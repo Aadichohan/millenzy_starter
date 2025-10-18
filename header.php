@@ -33,7 +33,7 @@
       <span></span>
     </div>
 
-
+  <div class="logo-nav-section">
     <div class="logo">
       <?php 
         if (has_custom_logo()) {
@@ -47,18 +47,40 @@
    <!-- 🔹 Navigation -->
     <nav class="main-nav" id="mobileNav">
       <?php
-        wp_nav_menu(array(
-          'theme_location' => 'primary',
-          'menu_class'     => 'menu-items',
-          'container'      => false,
-        ));
+        if ( has_nav_menu( 'primary' ) ) {
+          wp_nav_menu(array(
+            'theme_location' => 'primary',
+            'menu_class'     => 'menu-items',
+            'container'      => false,
+          ));
+        } else {
+          echo '<ul class="menu-items">
+            <li class="menu-item"><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li>
+            <li class="menu-item"><a href="#">Collections</a></li>
+            <li class="menu-item"><a href="#">Contact</a></li>
+            <li class="menu-item"><a href="#">About Us</a></li>
+          </ul>';
+        }
       ?>
     </nav>
-
+  </div>
     <div class="header-icons">
-      <a href="#"><i class="fas fa-search"></i></a>
+      <a href="#" id="searchToggle" class="search-icon"><i class="fas fa-search"></i></a>
       <a href="<?php echo wc_get_page_permalink('myaccount'); ?>"><i class="far fa-user"></i></a>
-      <a href="<?php echo wc_get_cart_url(); ?>"><i class="far fa-shopping-bag"></i></a>
+      <a href="<?php echo wc_get_cart_url(); ?>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 1 1-8 0" />
+        </svg>
+      </a>
+    </div>
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="search-overlay">
+      <div class="search-box">
+        <input type="text" placeholder="Search..." />
+        <button type="button" id="closeSearch" class="close-btn">&times;</button>
+      </div>
     </div>
     <!-- <div class="header-icons">
         <a href="#" class="icon-search" aria-label="Search">

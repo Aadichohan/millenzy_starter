@@ -19,11 +19,11 @@ Text Domain: millenzy
   padding: 0;
 }
 .top-bar {
-  background: var(--header-tobar-bg);
+  background: var(--header-topbar-bg);
   border-bottom: 1px solid #eee;
   padding: 8px 0;
   font-size: 14px;
-  color: var(--header-tobar-text);
+  color: var(--header-topbar-text);
 }
 .top-bar .container {
   display: flex;
@@ -38,13 +38,34 @@ Text Domain: millenzy
 }
 
 .social-icons a {
-  color: var(--header-tobar-text);
+  color: var(--header-topbar-text);
   margin-right: 15px;
   transition: 0.3s;
   text-decoration: none;
 }
 .social-icons a:hover, .delivery-info:hover {
   color: var(--header-topbar-hover-text);
+}
+.delivery-info {
+  animation: popBlink 1.2s step-start infinite;
+}
+@keyframes popBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--header-topbar-text);
+  }
+  50% {
+    /* opacity: 0.5; */
+    opacity: 0;
+    transform: scale(1.05);
+    color: var(--header-topbar-text);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 /* 🔹 Header Base Styling */
 .main-header {
@@ -53,6 +74,51 @@ Text Domain: millenzy
   transition: background 0.3s ease;
   padding: 15px 0;
 }
+
+/* ===== Header Base ===== */
+.main-header {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid #ddd;
+  transition: all 0.4s ease;
+  padding: 15px 0;
+  z-index: 1000;
+}
+
+/* Placeholder to maintain layout height */
+.header-placeholder {
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+/* When fixed (glass effect) */
+.main-header.is-fixed {
+  position: fixed;
+  top: 0;
+  /* top: 30px; */
+  left: 0;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  animation: slideDown 0.4s ease forwards;
+}
+
+/* Animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
 .header-inner {
   display: flex;
@@ -65,16 +131,25 @@ Text Domain: millenzy
   display: none;
 }
 
+.logo-nav-section {
+    display: flex;
+    align-items: center;
+}
+
 .logo img {
   width: auto;
   height: var(--logo-height);
   max-height: var(--logo-height);
   transition: all 0.3s ease;
 }
+.main-nav {
+  margin-left: 50px;
+}
 
 .menu-items {
   display: flex;
-  gap: 30px;
+  flex-wrap: wrap;
+  /* gap: 30px; */
   list-style: none;
   margin: 0;
   padding: 0;
@@ -113,6 +188,23 @@ Text Domain: millenzy
   width: 100%;
 }
 
+/* Active (current) menu item underline — always visible */
+.main-nav .menu-items li.current-menu-item a::after,
+.main-nav .menu-items li.current_page_item a::after {
+  width: 100%;
+  /* background-color: var(--accent-color); */
+  background-color: var(--header-active-item-text); /* <-- Change this color as you like */
+}
+
+/* Optional: Active link text color (if you want it slightly different) */
+/* .main-nav .menu-items li.current-menu-item a,
+.main-nav .menu-items li.current_page_item a {
+  color: var(--header-active-item-text);
+} */
+
+.menu-item{
+  margin: 5px 10px;
+}
 
 /* 🔹 Header Icons */
 /* .header-icons a {
@@ -145,6 +237,73 @@ Text Domain: millenzy
 .header-icons {
   display: flex;
   align-items: center;
+}
+/* When overlay is active, prevent page scroll */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* ===== Overlay Base ===== */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+/* When Active */
+.search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== Search Box ===== */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+  padding: 15px 25px;
+  width: 60%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background: transparent;
+  color: #333;
+}
+
+.search-box .close-btn {
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* ===== Search Icon ===== */
+.search-icon {
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
 }
 
 /* ===== Footer Styles ===== */

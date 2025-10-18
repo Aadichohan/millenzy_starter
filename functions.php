@@ -30,6 +30,32 @@ add_action('init', function() {
 // -----------------------------------------------------------
 // Enqueue Styles (Main + Common + Page-specific)
 // -----------------------------------------------------------
+// =============================
+// Conditionally Enqueue Sticky Header Script
+// =============================
+function millenzy_fixed_header_script() {
+    if ( get_theme_mod('millenzy_fixed_header', false) ) {
+        wp_enqueue_script(
+            'millenzy-sticky-header',
+            get_template_directory_uri() . '/assets/js/header/sticky-header.js',
+            array(),
+            filemtime(get_template_directory() . '/assets/js/header/sticky-header.js'),
+            true
+        );
+    }
+}
+function millenzy_search_overlay_header_script() {
+
+    wp_enqueue_script(
+        'millenzy-search-overlay-header',
+        get_template_directory_uri() . '/assets/js/header/search-overlay.js',
+        array(),
+        filemtime(get_template_directory() . '/assets/js/header/search-overlay.js'),
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'millenzy_fixed_header_script');
+add_action('wp_enqueue_scripts', 'millenzy_search_overlay_header_script');
 add_action('wp_enqueue_scripts', function() {
     $dir  = get_template_directory_uri() . '/assets/css/';
     $custom_dir  = get_template_directory_uri() . '/assets/custom_css/';
@@ -126,6 +152,17 @@ add_action('customize_register', function($wp_customize) {
         'title'    => __('Header Colors', 'millenzy'),
         'priority' => 30,
     ]);
+    $wp_customize->add_setting('millenzy_fixed_header', array(
+        'default'   => false,
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control('millenzy_fixed_header_control', array(
+        'label'    => __('Enable Fixed Header', 'millenzy'),
+        'section'  => 'millenzy_header_colors',
+        'settings' => 'millenzy_fixed_header',
+        'type'     => 'checkbox',
+    ));
 
     // Header Top bar background color
     $wp_customize->add_setting('millenzy_header_topbar_bg_color', [
@@ -162,7 +199,7 @@ add_action('customize_register', function($wp_customize) {
 
     // Header background color
     $wp_customize->add_setting('millenzy_header_bg_color', [
-        'default'   => '#f7f7f7',
+        'default'   => '#ffffff',
         'transport' => 'refresh',
     ]);
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_header_bg_color_control', [
@@ -173,7 +210,7 @@ add_action('customize_register', function($wp_customize) {
 
     // Header text color
     $wp_customize->add_setting('millenzy_header_text_color', [
-        'default'   => '#353030',
+        'default'   => '#0e0d0d',
         'transport' => 'refresh',
     ]);
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_header_text_color_control', [
@@ -182,6 +219,16 @@ add_action('customize_register', function($wp_customize) {
         'settings' => 'millenzy_header_text_color',
     ]));
     
+    // Header Active Menu Item text color
+    $wp_customize->add_setting('millenzy_header_active_item_text_color', [
+        'default'   => '#c5a059',
+        'transport' => 'refresh',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'millenzy_header_active_item_text_color_control', [
+        'label'    => __('Header Active Menu Item Text Color', 'millenzy'),
+        'section'  => 'millenzy_header_colors',
+        'settings' => 'millenzy_header_active_item_text_color',
+    ]));
     // Header Hover text color
     $wp_customize->add_setting('millenzy_header_hover_text_color', [
         'default'   => '#000000',
@@ -302,6 +349,7 @@ add_action('wp_head', function() {
     $header_bg         = get_theme_mod('millenzy_header_bg_color', '#f7f7f7');
     $header_text       = get_theme_mod('millenzy_header_text_color', '#353030');
     $header_hover_text = get_theme_mod('millenzy_header_hover_text_color', '#000000');
+    $header_active_item_text = get_theme_mod('millenzy_header_active_item_text_color', '#c5a059');
     $footer_bg         = get_theme_mod('millenzy_footer_bg_color', '#f8f8f8');
     $footer_text       = get_theme_mod('millenzy_footer_text_color', '#000000');
     $footer_link_h4_text    = get_theme_mod('millenzy_footer_text_h4_color', '#c5a059');
@@ -311,12 +359,13 @@ add_action('wp_head', function() {
     echo "<style id='millenzy-dynamic-vars'>
         :root {
             --logo-height: {$logo_height}px;
-            --header-tobar-bg: {$header_topbar_bg};
-            --header-tobar-text: {$header_topbar_text};
+            --header-topbar-bg: {$header_topbar_bg};
+            --header-topbar-text: {$header_topbar_text};
             --header-topbar-hover-text: {$header_topbar_hover_text};
             --header-bg: {$header_bg};
             --header-text: {$header_text};
             --header-hover-text: {$header_hover_text};
+            --header-active-item-text: {$header_active_item_text};
             --footer-bg: {$footer_bg};
             --footer-text: {$footer_text};
             --footer-link-h4-text: {$footer_link_h4_text};

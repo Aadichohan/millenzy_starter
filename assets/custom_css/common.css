@@ -1,6 +1,10 @@
 
 /* 🔹 Responsive Header */
-@media (max-width: 900px) {
+@media (max-width: 999px) {
+  .main-header.is-fixed {
+    /* position: fixed; */
+    /* top: 0; */
+  }
   .main-header .header-inner{
     height: 60px;
   }
