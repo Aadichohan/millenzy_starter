@@ -25,6 +25,15 @@
 <!-- 🔹 Main Header -->
 <header class="main-header">
   <div class="container header-inner">
+
+    <!-- 🔹 Burger Icon (Mobile Only) -->
+    <div class="nav-toggle" id="navToggle">
+      <span>X</span>
+      <span>||</span>
+      <span></span>
+    </div>
+
+
     <div class="logo">
       <?php 
         if (has_custom_logo()) {
@@ -34,12 +43,6 @@
         <?php } ?>
     </div>
 
-    <!-- 🔹 Burger Icon (Mobile Only) -->
-    <div class="nav-toggle" id="navToggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
 
    <!-- 🔹 Navigation -->
     <nav class="main-nav" id="mobileNav">

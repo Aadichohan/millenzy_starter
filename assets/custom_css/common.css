@@ -1,43 +1,24 @@
-/* 🔹 Top Bar */
-
-
-.main-nav .menu-items {
-  list-style: none;
-  display: flex;
-  gap: 35px;
-  margin: 0;
-  padding: 0;
-}
-
-
-
-
-/* 🔹 Footer */
-.site-footer {
-  background: var(--footer-bg);
-  color: var(--footer-text);
-  padding: 40px 0;
-  text-align: center;
-}
-.footer-menu {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
-  padding: 0;
-}
-.footer-menu li a {
-  color: var(--footer-text);
-  text-decoration: none;
-  transition: 0.3s;
-}
-.footer-menu li a:hover {
-  color: var(--footer-accent);
-}
 
 /* 🔹 Responsive Header */
 @media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+    /* Center logo perfectly */
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Keep burger and icons aligned sides */
+  /* .nav-toggle {
+    order: 1;
+  } */
+
+  .header-icons {
+    order: 3;
+  }
   .main-nav .menu-items {
     flex-direction: column;
     gap: 20px;

@@ -9,9 +9,10 @@ Text Domain: millenzy
 */
 
 /* ===== Header Styles ===== */
-.millenzy-header {
+
+/* .millenzy-header {
   font-family: 'Poppins', sans-serif;
-}
+} */
 
 .top-bar {
   background: var(--header-tobar-bg);
@@ -53,6 +54,11 @@ Text Domain: millenzy
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; /* important for absolute centering later */
+}
+
+.nav-toggle {
+  display: none;
 }
 
 .logo img {
