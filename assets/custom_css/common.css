@@ -19,6 +19,12 @@
   .header-icons {
     order: 3;
   }
+  .social-icons{
+    display: none;
+  }
+  .delivery-info{
+    margin: 0 auto;
+  }
   .main-nav .menu-items {
     flex-direction: column;
     gap: 20px;
@@ -35,7 +41,13 @@
     display: flex;
   }
 
-  .header-inner {
+  .top-header-inner {
     flex-wrap: wrap;
+    height: 65px;
+  }
+  .bottom-header-inner {
+    flex-wrap: wrap;
+    height: 65px;
+    display: none;
   }
 }

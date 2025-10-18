@@ -1,0 +1,266 @@
+/*
+Theme Name: Millenzy — Elementor-ready
+Theme URI: https://example.com/millenzy
+Author: Abdul Ahad
+Description: Millenzy theme, Elementor-ready, WooCommerce compatible with customizable header & footer colors.
+Version: 1.2
+License: GPL-2.0+
+Text Domain: millenzy
+*/
+
+/* ===== Header Styles ===== */
+
+/* .millenzy-header {
+  font-family: 'Poppins', sans-serif;
+} */
+*{
+  margin: 0;
+  padding: 0;
+}
+.top-bar {
+  background: var(--header-tobar-bg);
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--header-tobar-text);
+}
+.top-bar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* 🔹 Utility */
+.container {
+  width: 90%;
+  margin: 0 auto;
+  /* max-width: 1200px; */
+}
+
+.social-icons a {
+  color: var(--header-tobar-text);
+  margin-right: 15px;
+  transition: 0.3s;
+  text-decoration: none;
+}
+.social-icons a:hover, .delivery-info:hover {
+  color: var(--header-topbar-hover-text);
+}
+/* 🔹 Header Base Styling */
+.main-header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid #ddd;
+  transition: background 0.3s ease;
+  padding: 15px 0;
+}
+
+.top-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; /* important for absolute centering later */
+}
+.bottom-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; /* important for absolute centering later */
+}
+
+.nav-toggle {
+  display: none;
+}
+
+/* .logo img {
+  width: auto;
+  height: var(--logo-height);
+  max-height: var(--logo-height);
+  transition: all 0.3s ease;
+  
+} */
+.top-header-inner .logo{
+  margin: 0 auto;
+}
+.logo img {
+  width: auto;
+  height: var(--logo-height);
+  max-height: var(--logo-height);
+  transition: all 0.3s ease;
+}
+
+.menu-items {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav .menu-items li a {
+  position: relative;
+  color: var(--header-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  padding-bottom: 3px;
+  transition: color 0.3s ease;
+}
+
+/* The animated underline */
+.main-nav .menu-items li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--header-hover-text);
+  transition: width 0.3s ease;
+}
+
+.main-nav .menu-items li a:hover {
+  color: var(--header-hover-text);
+}
+
+.main-nav .menu-items li a:hover::after {
+  width: 100%;
+}
+.main-nav .menu-items li.current-menu-item a::after {
+  width: 100%;
+}
+
+
+/* 🔹 Header Icons */
+/* .header-icons a {
+  color: var(--header-text);
+  margin-left: 20px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+.header-icons a:hover {
+  color: var(--header-hover-text)
+} */
+
+/* ========== HEADER ICONS HOVER EFFECT ========== */
+.header-icons a {
+  color: var(--header-text);
+  margin-left: 20px;
+  font-size: 18px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  /* display: inline-flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icons a:hover {
+  color: var(--header-hover-text);
+  transform: scale(1.15);
+}
+
+/* Optional: spacing adjustment for consistent look */
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
+/* ===== Footer Styles ===== */
+.millenzy-footer {
+  /* background-color: #000; */
+  background: var(--footer_bg, #f8f8f8);
+  color: var(--footer_text, #000000);
+  padding: 60px 0 20px;
+  text-align: center;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.footer-column {
+  width: 250px;
+}
+
+.footer-column h4 {
+  /* color: #c5a059; */
+  color: var(--footer-link-h4-text);
+  margin-bottom: 15px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li a {
+  color: var(--footer-link-text);
+  text-decoration: none;
+  line-height: 2;
+}
+
+.footer-column ul li a:hover {
+  color: var(--footer-link-hover-text);
+}
+
+.copyright {
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  font-size: 13px;
+  color: #999;
+}
+
+
+ /* no use of common.css  */
+ /* 🔹 Responsive Header */
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+    /* Center logo perfectly */
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Keep burger and icons aligned sides */
+  /* .nav-toggle {
+    order: 1;
+  } */
+
+  .header-icons {
+    order: 3;
+  }
+  .social-icons{
+    display: none;
+  }
+  .delivery-info{
+    margin: 0 auto;
+  }
+  .main-nav .menu-items {
+    flex-direction: column;
+    gap: 20px;
+    background: var(--header-bg);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    display: none;
+  }
+
+  .main-nav.active .menu-items {
+    display: flex;
+  }
+
+  .top-header-inner {
+    flex-wrap: wrap;
+    height: 65px;
+  }
+  .bottom-header-inner {
+    flex-wrap: wrap;
+    height: 65px;
+    display: none;
+  }
+}
