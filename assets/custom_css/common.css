@@ -1,6 +1,9 @@
 
 /* 🔹 Responsive Header */
 @media (max-width: 900px) {
+  .main-header .header-inner{
+    height: 60px;
+  }
   .nav-toggle {
     display: inline-flex;
   }
