@@ -28,8 +28,8 @@
 
     <!-- 🔹 Burger Icon (Mobile Only) -->
     <div class="nav-toggle" id="navToggle">
-      <span>X</span>
-      <span>||</span>
+      <span></span>
+      <span></span>
       <span></span>
     </div>
 
@@ -63,6 +63,8 @@
         }
       ?>
     </nav>
+    <!-- Overlay -->
+    <!-- <div class="menu-overlay" id="menuOverlay"></div> -->
   </div>
     <div class="header-icons">
       <a href="#" id="searchToggle" class="search-icon"><i class="fas fa-search"></i></a>

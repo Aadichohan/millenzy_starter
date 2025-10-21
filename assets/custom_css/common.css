@@ -32,7 +32,7 @@
   .delivery-info{
     margin: 0 auto;
   }
-  .main-nav .menu-items {
+  /* .main-nav .menu-items {
     flex-direction: column;
     gap: 20px;
     background: var(--header-bg);
@@ -42,11 +42,8 @@
     width: 100%;
     padding: 20px;
     display: none;
-  }
+    } */
 
-  .main-nav.active .menu-items {
-    display: flex;
-  }
 
   .top-header-inner {
     flex-wrap: wrap;
@@ -56,5 +53,116 @@
     flex-wrap: wrap;
     height: 65px;
     display: none;
+  }
+}
+
+/* ========== MOBILE DRAWER MENU (SLIDE-IN FROM LEFT) ========== */
+@media (max-width: 999px) {
+  #wpadminbar{
+    display: none;
+  }
+  /* Drawer base */
+  .main-nav {
+    position: fixed;
+    top: 175px;
+    left: -109%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    transition: left 0.4s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 90px 20px 40px;
+  }
+
+  /* Drawer active state */
+  .main-nav.active {
+    left: -50px;
+  }
+
+  /* Menu Items */
+  .main-nav .menu-items {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    flex-direction: column;
+    gap: 20px;
+    /* background: var(--header-bg); */
+    position: absolute;
+    top: 4%;
+    width: 90%;
+  }
+  .main-nav .menu-items li a {
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .main-nav .menu-items li:hover {
+    background-color: rgba(230, 230, 230, 0.808);
+  }
+  .main-nav .menu-items li a:hover {
+    color: var(--header-hover-text);
+  }
+
+  /* Overlay behind drawer */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    z-index: 9998;
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Burger Icon behavior */
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+  }
+
+  .nav-toggle span {
+    background: var(--header-text);
+    height: 2px;
+    width: 25px;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+    display: block;
+  }
+
+  .nav-toggle.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Disable scroll when menu open */
+  body.menu-open {
+    overflow: hidden;
   }
 }
